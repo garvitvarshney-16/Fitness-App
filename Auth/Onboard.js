@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as AuthSession from 'expo-auth-session';
 
 const banner = require('../assets/images/banner.jpg')
+const logo = require('../assets/images/fitPhy-name.png')
 
 export default function Onboard({ navigation }) {
 
@@ -132,21 +133,23 @@ export default function Onboard({ navigation }) {
     return (
         <View style={styles.container} onLayout={onLayoutRootView}>
             <StatusBar style='dark' />
-            <View style={styles.imageContainer}>
-                <Image source={banner} style={styles.banner} />
-            </View>
             <View style={styles.main}>
-                <LinearGradient style={styles.groupChild} locations={[0, 1]} colors={['#8b78ff', '#5451d6']} useAngle={true} angle={135.96} />
-                <Text style={styles.brand}>FitPhy</Text>
-                <Text style={styles.subHead}>Maximize Your Athletic Potential</Text>
-                <Text style={styles.subHead2}>Onboard to unlock AI-powered coaching, real-time feedback, and a community of athletes. Get started!</Text>
-                <TouchableOpacity activeOpacity={0.9} style={styles.base}
-                    onPress={() => promptAsync({ useProxy: true, showInRecents: true })}
-                >
-                    <LinearGradient style={styles.base1} locations={[0, 1]} colors={['#8b78ff', '#5451d6']} useAngle={true} angle={135.96}>
+                <View style={styles.imageContainer}>
+                    <Image source={banner} style={styles.banner} />
+                </View>
+                <View style={styles.subMain}>
+                    <View style={styles.line}></View>
+                    <View style={styles.brandContainer}>
+                        <Image source={logo} style={styles.brand} />
+                    </View>
+                    <Text style={styles.subHead}>Maximize Your Athletic Potential</Text>
+                    <Text style={styles.subHead2}>Onboard to unlock AI-powered coaching, real-time feedback, and a community of athletes. Get started!</Text>
+                    <TouchableOpacity activeOpacity={0.9} style={styles.base}
+                        onPress={() => promptAsync({ useProxy: true, showInRecents: true })}
+                    >
                         <Text style={styles.buttonText}>Continue</Text>
-                    </LinearGradient>
-                </TouchableOpacity>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     )
@@ -155,73 +158,79 @@ export default function Onboard({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#FEFEFE',
     },
     imageContainer: {
         width: "100%",
-        height: '42%',
+        height: 400,
+        marginTop: 25,
+        backgroundColor: '#FEFEFE',
     },
     banner: {
-        height: '100%',
+        height: 400,
         width: '100%',
         borderBottomRightRadius: 30,
         borderBottomLeftRadius: 30,
     },
     main: {
-        paddingHorizontal: 10,
+        width: '100%',
+        height: '100%',
+    },
+    subMain: {
+        elevation: 5,
+        height: '100%',
+        marginHorizontal: -10,
+        borderTopRightRadius: 40,
+        borderTopLeftRadius: 40,
         padding: 10,
-        alignContent: 'center',
-        alignItems: 'center',
+        paddingHorizontal: 20,
     },
-    groupChild: {
-        borderRadius: 13,
-        width: 25,
-        height: 5
-    },
-    rectangleParent: {
-        flex: 1,
-        width: "100%",
-        height: 5
+    brandContainer: {
+        marginTop: 10,
+        height: 70,
+        width: 200,
+        alignItems: 'flex-start',
+        alignContent: 'flex-start',
+        justifyContent: 'flex-start',
     },
     brand: {
-        fontSize: 46,
-        marginTop: 46,
-        fontWeight: '600',
-        color: "#756ef3",
-        textAlign: "center",
-        fontFamily: 'PollerOne-Regular',
+        height: '100%',
+        width: '100%',
+        alignSelf: 'flex-start',
+        resizeMode: 'cover',
     },
     subHead: {
-        fontSize: 37,
-        marginTop: 10,
+        fontSize: 28,
+        marginLeft: 10,
         fontWeight: "700",
         color: "#2f394b",
-        textAlign: "center",
-        width: 295,
+        textAlign: 'left',
         fontFamily: 'OpenSans-Bold',
     },
     subHead2: {
-        fontSize: 14,
+        fontSize: 15,
         marginTop: 10,
+        marginLeft: 10,
         fontFamily: 'OpenSans-Bold',
         color: "#8d8d8d",
-        textAlign: "center",
-        width: 295
+        textAlign: 'left',
     },
     base: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
-    },
-    base1: {
         marginTop: 42,
         borderRadius: 15,
-        width: "80%",
+        width: "100%",
         height: 60,
-        backgroundColor: "transparent",
+        backgroundColor: "#3979cb",
         justifyContent: 'center',
-        elevation: 5,
-        shadowColor: '#5451d6',
+    },
+    line: {
+        marginTop: 15,
+        marginBottom: 10,
+        borderRadius: 15,
+        width: "10%",
+        height: 5,
+        backgroundColor: "#1C62BC",
+        alignSelf: 'center',
     },
     buttonText: {
         fontSize: 20,
