@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as AuthSession from 'expo-auth-session';
+import { Svg, Path, Circle, Mask, G } from 'react-native-svg';
+import { LinearGradient } from 'expo-linear-gradient';
+import * as Progress from 'react-native-progress';
 
 export default function Home({ navigation }) {
 
@@ -32,7 +35,6 @@ export default function Home({ navigation }) {
             if (jsonValue != null) {
                 const authFromJson = JSON.parse(jsonValue);
                 setAuth(authFromJson);
-                console.log(authFromJson);
             }
             else {
                 alert("Error in fetching access token");
@@ -46,9 +48,7 @@ export default function Home({ navigation }) {
         let userInfoResponse = await fetch("https://www.googleapis.com/userinfo/v2/me", {
             headers: { Authorization: `Bearer ${auth.accessToken}` }
         });
-
         userInfoResponse.json().then(data => {
-            console.log(data);
             setUserInfo(data);
         });
     };
@@ -106,7 +106,7 @@ export default function Home({ navigation }) {
     useEffect(() => {
         if (auth) {
             getUserData();
-            console.log(auth.accessToken);
+            getGoogleFitData(auth.accessToken);
         }
     }, [auth])
 
@@ -114,11 +114,52 @@ export default function Home({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text>Home Screen</Text>
-            <Text>{userInfo?.email}</Text>
-            <Text>{stepCount}</Text>
-            <Button title='Logout' onPress={() => logout()} />
-            <Button title='Get Fitness Data' onPress={() => getGoogleFitData(auth.accessToken)} />
+            <View style={styles.main}>
+                <ScrollView>
+                    <View style={styles.header}>
+                        <View>
+                            <Text style={styles.span}>Welcome Back,</Text>
+                            <Text style={styles.name}>{userInfo?.name}</Text>
+                        </View>
+                        <TouchableOpacity style={styles.notiBtn}>
+                            <Svg width="24" height="24" viewBox="0 0 18 18" fill="none">
+                                <Mask id="mask0_414_4917" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="2" y="0" width="20" height="20">
+                                    <Path fill-rule="evenodd" clip-rule="evenodd" d="M2.25 0.75H16.1227V13.761H2.25V0.75Z" fill="white" />
+                                </Mask>
+                                <G mask="url(#mask0_414_4917)">
+                                    <Path fill-rule="evenodd" clip-rule="evenodd" d="M9.18525 1.875C6.564 1.875 4.737 3.9285 4.737 5.77125C4.737 7.3305 4.30425 8.05125 3.92175 8.68725C3.615 9.198 3.37275 9.6015 3.37275 10.4782C3.498 11.8927 4.43175 12.636 9.18525 12.636C13.9125 12.636 14.8755 11.8597 15 10.4295C14.9977 9.6015 14.7555 9.198 14.4487 8.68725C14.0662 8.05125 13.6335 7.3305 13.6335 5.77125C13.6335 3.9285 11.8065 1.875 9.18525 1.875ZM9.18526 13.761C5.67826 13.761 2.50876 13.5135 2.25001 10.5262C2.24776 9.29025 2.62501 8.66175 2.95801 8.10825C3.29476 7.54725 3.61201 7.0185 3.61201 5.77125C3.61201 3.3465 5.85151 0.75 9.18526 0.75C12.519 0.75 14.7585 3.3465 14.7585 5.77125C14.7585 7.0185 15.0758 7.54725 15.4125 8.10825C15.7455 8.66175 16.1228 9.29025 16.1228 10.4782C15.861 13.5135 12.6923 13.761 9.18526 13.761Z" fill="#1D1617" />
+                                </G>
+                                <Path fill-rule="evenodd" clip-rule="evenodd" d="M9.14876 16.875H9.14726C8.30651 16.8742 7.51076 16.5037 6.90701 15.831C6.69926 15.6007 6.71801 15.2445 6.94901 15.0375C7.18001 14.829 7.53551 14.8477 7.74326 15.0795C8.13176 15.5122 8.63051 15.75 9.14801 15.75H9.14876C9.66851 15.75 10.1695 15.5122 10.5588 15.0787C10.7673 14.8485 11.1228 14.8297 11.353 15.0375C11.584 15.2452 11.6028 15.6015 11.395 15.8317C10.789 16.5045 9.99176 16.875 9.14876 16.875Z" fill="#1D1617" />
+                                <Circle cx="12.5" cy="2.5" r="2.5" fill="#F7F8F8" />
+                                <Circle cx="12.5" cy="2.5" r="1.5" fill="#FF0000" />
+                            </Svg>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.subMain}>
+                        <LinearGradient style={styles.topBanner} locations={[0, 1]} colors={['#92a3fd', '#9dceff']} useAngle={true} angle={-85.58}>
+                            <View style={styles.textBox}>
+                                <Text style={styles.text1}>
+                                    My Goals
+                                </Text>
+                                <Text style={styles.text1}>
+                                    For Today
+                                </Text>
+                                <Text style={styles.text2}>
+                                    1/7 Complete
+                                </Text>
+                            </View>
+                            <Progress.Pie
+                                size={100}
+                                progress={0.25}
+                                borderWidth={5}
+                                direction='counter-clockwise'
+                                color='#FFFFFF'
+                                borderRadius={10}
+                            />
+                        </LinearGradient>
+                    </View>
+                </ScrollView>
+            </View>
         </View>
     )
 }
@@ -129,5 +170,62 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    main: {
+        height: '100%',
+        width: '100%',
+    },
+    header: {
+        marginTop: 45,
+        paddingHorizontal: 25,
+        padding: 5,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    span: {
+        fontFamily: 'OpenSans-Medium',
+        color: '#808080',
+        fontSize: 14,
+    },
+    name: {
+        fontFamily: 'OpenSans-Bold',
+        color: '#000000',
+        fontSize: 16,
+    },
+    notiBtn: {
+        borderRadius: 8,
+        width: 40,
+        height: 40,
+        backgroundColor: 'rgba(000, 000, 000, 0.04)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    subMain: {
+        paddingHorizontal: 25,
+        marginTop: 25,
+    },
+    topBanner: {
+        height: 146,
+        width: '100%',
+        borderRadius: 25,
+        padding: 10,
+        paddingHorizontal: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    textBox: {
+        width: '60%',
+    },
+    text1: {
+        fontSize: 28,
+        fontFamily: 'OpenSans-Bold',
+        color: '#FFF'
+    },
+    text2: {
+        marginTop: 10,
+        fontSize: 18,
+        fontFamily: 'OpenSans-Medium',
+        color: '#FFF'
     }
 })
