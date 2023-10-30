@@ -11,6 +11,9 @@ export default function Home({ navigation }) {
     const [userInfo, setUserInfo] = useState();
     const [auth, setAuth] = useState();
     const [stepCount, setStepCount] = useState(0);
+    const stepGoal = 24000;
+    const heartPointGoal = 100;
+    const [heartPoint, setHeartPoint] = useState(98);
 
     const logout = async () => {
         try {
@@ -56,7 +59,11 @@ export default function Home({ navigation }) {
     const getGoogleFitData = async (authToken) => {
         const endpoint = "https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate";
         const dataType = "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps";
-        const startTimeMillis = Date.now() - 24 * 60 * 60 * 1000; // Start time (e.g., 24 hours ago)
+        const currentDate = new Date();
+        // Set start time to the beginning of the current day (12:01 AM)
+        const startTime = new Date(currentDate);
+        startTime.setHours(0, 1, 0, 0); // Set hours to 0 (midnight), minutes to 1, seconds to 0, milliseconds to 0
+        const startTimeMillis = startTime.getTime(); // Get the milliseconds // Start time (e.g., 24 hours ago)
         const endTimeMillis = Date.now(); // End time (current time)
 
         const request = {
@@ -84,16 +91,8 @@ export default function Home({ navigation }) {
 
             if (response.ok) {
                 const data = await response.json();
-                if (response.bucket && response.bucket.length > 0) {
-                    const dataset = response.bucket[0].dataset;
-                    if (dataset && dataset.length > 0) {
-                        const stepData = dataset[0].point;
-                        if (stepData && stepData.length > 0) {
-                            const stepValue = stepData[0].value[0].intVal;
-                            setStepCount(stepValue);
-                        }
-                    }
-                }
+                const steps = data.bucket[0].dataset[0].point[0].value[0].intVal;
+                setStepCount(steps);
                 // Process and handle the Google Fit data as needed.
             } else {
                 console.log(response);
@@ -135,28 +134,48 @@ export default function Home({ navigation }) {
                             </Svg>
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.subMain}>
-                        <LinearGradient style={styles.topBanner} locations={[0, 1]} colors={['#92a3fd', '#9dceff']} useAngle={true} angle={-85.58}>
-                            <View style={styles.textBox}>
-                                <Text style={styles.text1}>
-                                    My Goals
-                                </Text>
-                                <Text style={styles.text1}>
-                                    For Today
-                                </Text>
-                                <Text style={styles.text2}>
-                                    1/7 Complete
-                                </Text>
-                            </View>
-                            <Progress.Pie
-                                size={100}
-                                progress={0.25}
-                                borderWidth={5}
-                                direction='counter-clockwise'
-                                color='#FFFFFF'
-                                borderRadius={10}
-                            />
-                        </LinearGradient>
+                    <View style={styles.progressBar}>
+                        <Progress.Circle
+                            size={150}
+                            progress={heartPoint / heartPointGoal}
+                            thickness={7}
+                            unfilledColor='#D3D3D3'
+                            color='#2DBE9C'
+                            borderColor="#FEFEFE"
+                            strokeCap='round'
+                            style={{
+                                shadowColor: 'grey',
+                                shadowOffset: { width: 2, height: 2 },
+                                elevation: 10,
+                                shadowOpacity: 0.1,
+                                shadowRadius: 1,
+                            }}
+                            textStyle={{ fontSize: 16, fontWeight: '600' }} />
+                        <Progress.Circle
+                            size={120}
+                            progress={stepCount / stepGoal}
+                            thickness={7}
+                            unfilledColor='#D3D3D3'
+                            color='#1F4FAA'
+                            borderColor="#FEFEFE"
+                            strokeCap='round'
+                            style={{
+                                shadowColor: 'grey',
+                                shadowOffset: { width: 2, height: 2 },
+                                elevation: 10,
+                                shadowOpacity: 0.1,
+                                shadowRadius: 1,
+                                position: 'absolute'
+                            }}
+                            textStyle={{ fontSize: 16, fontWeight: '600' }} />
+                        <View style={styles.textBox}>
+                            <Text style={styles.heartPoints}>
+                                {heartPoint}
+                            </Text>
+                            <Text style={styles.steps}>
+                                {stepCount}
+                            </Text>
+                        </View>
                     </View>
                 </ScrollView>
             </View>
@@ -200,32 +219,31 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    progressBar: {
+        paddingHorizontal: 25,
+        marginTop: 25,
+        alignContent: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     subMain: {
         paddingHorizontal: 25,
         marginTop: 25,
     },
-    topBanner: {
-        height: 146,
-        width: '100%',
-        borderRadius: 25,
-        padding: 10,
-        paddingHorizontal: 20,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
+    // font color #418AE5
     textBox: {
-        width: '60%',
+        position: 'absolute',
+        alignItems: 'center',
+        justifyContent: 'center'
     },
-    text1: {
-        fontSize: 28,
-        fontFamily: 'OpenSans-Bold',
-        color: '#FFF'
+    steps: {
+        fontSize: 20,
+        fontWeight: '600',
+        color: '#1F4FAA',
     },
-    text2: {
-        marginTop: 10,
-        fontSize: 18,
-        fontFamily: 'OpenSans-Medium',
-        color: '#FFF'
+    heartPoints: {
+        fontSize: 32,
+        color: '#2DBE9C',
+        fontWeight: '600',
     }
 })
