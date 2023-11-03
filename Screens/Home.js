@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as AuthSession from 'expo-auth-session';
 import { Svg, Path, Circle, Mask, G } from 'react-native-svg';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Progress from 'react-native-progress';
+import Footer from '../Common/Footer';
 
 export default function Home({ navigation }) {
 
@@ -16,16 +17,6 @@ export default function Home({ navigation }) {
     const [heartPoint, setHeartPoint] = useState(98);
 
     const logout = async () => {
-        try {
-            await AuthSession.revokeAsync({
-                token: auth.accessToken
-            }, {
-                revocationEndpoint: "https://oauth2.googleapis.com/revoke"
-            });
-        } catch (error) {
-            alert("Error", error)
-        }
-
         setAuth(undefined);
         setUserInfo(undefined);
         await AsyncStorage.removeItem("auth");
@@ -37,10 +28,10 @@ export default function Home({ navigation }) {
             const jsonValue = await AsyncStorage.getItem("auth");
             if (jsonValue != null) {
                 const authFromJson = JSON.parse(jsonValue);
+                console.log("Auth Data", authFromJson);
                 setAuth(authFromJson);
             }
             else {
-                alert("Error in fetching access token");
                 logout();
             }
         }
@@ -52,7 +43,11 @@ export default function Home({ navigation }) {
             headers: { Authorization: `Bearer ${auth.accessToken}` }
         });
         userInfoResponse.json().then(data => {
-            setUserInfo(data);
+            if (data.error) {
+                logout();
+            } else {
+                setUserInfo(data);
+            }
         });
     };
 
@@ -91,14 +86,14 @@ export default function Home({ navigation }) {
 
             if (response.ok) {
                 const data = await response.json();
-                const steps = data.bucket[0].dataset[0].point[0].value[0].intVal;
+                const steps = data.bucket[0].dataset[0].point[0]?.value[0]?.intVal ? data.bucket[0].dataset[0]?.point[0]?.value[0].intVal : 0;
                 setStepCount(steps);
                 // Process and handle the Google Fit data as needed.
             } else {
                 console.log(response);
             }
         } catch (error) {
-            console.log("Error", error);
+            console.log("Error here", error);
         }
     };
 
@@ -108,6 +103,10 @@ export default function Home({ navigation }) {
             getGoogleFitData(auth.accessToken);
         }
     }, [auth])
+
+    const refreshData = async () => {
+        await getGoogleFitData(auth.accessToken);
+    }
 
 
 
@@ -122,7 +121,7 @@ export default function Home({ navigation }) {
                         </View>
                         <TouchableOpacity style={styles.notiBtn}>
                             <Svg width="24" height="24" viewBox="0 0 18 18" fill="none">
-                                <Mask id="mask0_414_4917" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="2" y="0" width="20" height="20">
+                                <Mask id="mask0_414_4917" maskUnits="userSpaceOnUse" x="2" y="0" width="20" height="20">
                                     <Path fill-rule="evenodd" clip-rule="evenodd" d="M2.25 0.75H16.1227V13.761H2.25V0.75Z" fill="white" />
                                 </Mask>
                                 <G mask="url(#mask0_414_4917)">
@@ -134,7 +133,7 @@ export default function Home({ navigation }) {
                             </Svg>
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.progressBar}>
+                    <TouchableOpacity style={styles.progressBar} activeOpacity={0.5} onPress={() => refreshData()}>
                         <Progress.Circle
                             size={150}
                             progress={heartPoint / heartPointGoal}
@@ -176,8 +175,27 @@ export default function Home({ navigation }) {
                                 {stepCount}
                             </Text>
                         </View>
+                    </TouchableOpacity>
+                    <View style={styles.firstRow}>
+                        <View style={styles.row1}>
+                            <Svg width="24" height="24" viewBox="0 0 24 24" fill="none" >
+                                <Path d="M16.1401 1C16.8067 2.66667 16.9609 5.41622 19.6401 7.5C25.1401 11.7778 22.6401 14 17.6401 16C12.6401 18 13.6401 23 7.14006 23C3.14006 23 1.48231 21.8155 2.14005 20.5C2.7978 19.1845 6.2801 20.6039 8.14006 18C10.6401 14.5 10.1401 8 8.64006 3M16 13C17.1046 13 18 12.1046 18 11C18 10.2597 17.5978 9.61339 17 9.26758"
+                                    stroke="#1F4FAA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            </Svg>
+                            <Text style={styles.span1}>Steps</Text>
+                        </View>
+                        <View style={styles.row1}>
+                            <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <Path d="M15.9392 18.5C14.5265 19.5369 13.1119 20.2936 12 20.6631C8.5 19.5 2 14.5 2 9C2 5.96245 4.46244 3.5 7.5 3.5C9.36015 3.5 11.0046 4.42345 12 5.8369C12.9954 4.42345 14.6399 3.5 16.5 3.5C19.5375 3.5 22 5.96245 22 9C22 9.87325 21.8361 10.7339 21.5464 11.5686M13 14.5H15L17 12L18.5 17L20.5 14.5H22.5"
+                                    stroke="#2DBE9C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            </Svg>
+                            <Text style={styles.span1}>Heart Pt.</Text>
+                        </View>
                     </View>
                 </ScrollView>
+            </View>
+            <View style={styles.footer}>
+                <Footer navigation={navigation} />
             </View>
         </View>
     )
@@ -195,7 +213,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     header: {
-        marginTop: 45,
+        marginTop: 55,
         paddingHorizontal: 25,
         padding: 5,
         flexDirection: 'row',
@@ -245,5 +263,28 @@ const styles = StyleSheet.create({
         fontSize: 32,
         color: '#2DBE9C',
         fontWeight: '600',
+    },
+    firstRow: {
+        marginTop: 10,
+        flexDirection: 'row',
+        width: '60%',
+        alignSelf: 'center',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+    },
+    footer: {
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+    },
+    row1: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
+    },
+    span1: {
+        fontSize: 16,
+        fontFamily: 'OpenSans-Bold',
     }
 })
