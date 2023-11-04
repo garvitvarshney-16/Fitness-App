@@ -4,10 +4,13 @@ import { Svg, Path, Circle, Mask, G, Defs, Stop, LinearGradient } from 'react-na
 import Footer from '../Common/Footer';
 
 export default function Profile({ navigation }) {
+
+    const screen = 'Profile';
+
     return (
         <View style={styles.container}>
             <View style={styles.footer}>
-                <Footer navigation={navigation} />
+                <Footer navigation={navigation} screen={screen} />
             </View>
         </View>
     )

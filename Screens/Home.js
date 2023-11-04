@@ -9,6 +9,8 @@ import Footer from '../Common/Footer';
 
 export default function Home({ navigation }) {
 
+    const screen = 'Home';
+
     const [userInfo, setUserInfo] = useState();
     const [auth, setAuth] = useState();
     const [stepCount, setStepCount] = useState(0);
@@ -195,7 +197,7 @@ export default function Home({ navigation }) {
                 </ScrollView>
             </View>
             <View style={styles.footer}>
-                <Footer navigation={navigation} />
+                <Footer navigation={navigation} screen={screen} />
             </View>
         </View>
     )
