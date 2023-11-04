@@ -9,6 +9,7 @@ export default function Profile({ navigation }) {
 
     return (
         <View style={styles.container}>
+            {/* <Text style={styles.headerText}>Community</Text> */}
             <View style={styles.footer}>
                 <Footer navigation={navigation} screen={screen} />
             </View>

@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
         width: '60%',
         alignSelf: 'center',
         alignItems: 'center',
-        justifyContent: 'space-evenly',
+        justifyContent: 'center',
     },
     footer: {
         position: 'absolute',
@@ -284,9 +284,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         gap: 8,
+        // backgroundColor:'#000'
     },
     span1: {
         fontSize: 16,
         fontFamily: 'OpenSans-Bold',
+        width: 80,
     }
 })
