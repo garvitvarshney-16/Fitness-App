@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "695485437157",
+    "project_id": "fitphy-beta-45d1a",
+    "storage_bucket": "fitphy-beta-45d1a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695485437157:android:e5999d57d871f2b573700c",
+        "android_client_info": {
+          "package_name": "com.atiruntechs.fitphy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "695485437157-1cjmk7sk4pmgi9n4sum5j6s79c5b7ckv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.atiruntechs.fitphy",
+            "certificate_hash": "81407eda7db8b25892f5f25b0cccdc7eb8f0286e"
+          }
+        },
+        {
+          "client_id": "695485437157-ihd04q68djtio5no7ibe9k5fp3d3vkcs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChbwUXDNezWhVvYBZU-HUO3qqVFBEfw0M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "695485437157-ejphndvhgn5gc29pass6tr0cb3r86dfr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "695485437157-2gn77vo13navtpab6ve8331s1hdsqhu6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.atiruntechs.fitphy"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

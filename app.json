@@ -23,6 +23,7 @@
       "bundleIdentifier": "com.atiruntechs.fitphy"
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "package": "com.atiruntechs.fitphy",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",

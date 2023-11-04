@@ -1,15 +1,66 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Platform, AppState, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as AuthSession from 'expo-auth-session';
 import { Svg, Path, Circle, Mask, G } from 'react-native-svg';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Progress from 'react-native-progress';
 import Footer from '../Common/Footer';
+import * as Notifications from 'expo-notifications';
 
 export default function Home({ navigation }) {
 
     const screen = 'Home';
+
+    const registerForPushNotificationsAsync = async () => {
+        let token = null;
+
+        const { status: existingStatus } = await Notifications.getPermissionsAsync();
+        let finalStatus = existingStatus;
+
+        if (existingStatus !== 'granted') {
+            const { status } = await Notifications.requestPermissionsAsync();
+            finalStatus = status;
+        }
+
+        if (finalStatus === 'granted') {
+            const { data } = await Notifications.getDevicePushTokenAsync();
+            token = data;
+        }
+        return token;
+    };
+
+    const handleNotification = (notification) => {
+        // Handle the received notification here based on the app state
+        if (AppState.currentState === 'active') {
+            // App is in the foreground, show an in-app notification or perform custom actions
+            Alert.alert('Notification', notification);
+        } else {
+            // App is in the background or not running, handle the notification here
+            console.log('Notification', notification);
+            navigation.navigate('Home');
+        }
+    };
+
+    useEffect(() => {
+        registerForPushNotificationsAsync();
+
+        const notificationListener = Notifications.addNotificationReceivedListener((notification) => {
+            handleNotification(notification);
+        });
+
+        const notificationResponseListener = Notifications.addNotificationResponseReceivedListener((response) => {
+            // Perform actions when the user clicks the notification
+            console.log('Notification response received:', response);
+            // Navigate to the desired screen upon clicking the notification
+            navigation.navigate('Home');
+        });
+
+        return () => {
+            Notifications.removeNotificationSubscription(notificationListener);
+            Notifications.removeNotificationSubscription(notificationResponseListener);
+        };
+    }, []);
 
     const [userInfo, setUserInfo] = useState();
     const [auth, setAuth] = useState();
