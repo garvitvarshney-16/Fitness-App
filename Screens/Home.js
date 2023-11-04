@@ -120,7 +120,7 @@ export default function Home({ navigation }) {
                             <Text style={styles.span}>Welcome Back,</Text>
                             <Text style={styles.name}>{userInfo?.name}</Text>
                         </View>
-                        <TouchableOpacity style={styles.notiBtn}>
+                        <TouchableOpacity style={styles.notiBtn} onPress={() => navigation.navigate("Notification")}>
                             <Svg width="24" height="24" viewBox="0 0 18 18" fill="none">
                                 <Mask id="mask0_414_4917" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="2" y="0" width="20" height="20">
                                     <Path fill-rule="evenodd" clip-rule="evenodd" d="M2.25 0.75H16.1227V13.761H2.25V0.75Z" fill="white" />
