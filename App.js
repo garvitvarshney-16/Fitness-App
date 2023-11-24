@@ -7,6 +7,8 @@ import Social from './Screens/Social';
 import Progresstrack from './Screens/Progresstrack';
 import Diet from './Screens/Diet';
 import Profile from './Screens/Profile';
+import Notification from './Screens/Notification';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +23,7 @@ export default function App() {
         <Stack.Screen options={{ headerShown: false }} name="Progresstrack" component={Progresstrack} />
         <Stack.Screen options={{ headerShown: false }} name="Diet" component={Diet} />
         <Stack.Screen options={{ headerShown: false }} name="Profile" component={Profile} />
+        <Stack.Screen options={{ headerShown: false}} name='Notification' component={Notification}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
