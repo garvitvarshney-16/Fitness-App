@@ -7,6 +7,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import * as Progress from 'react-native-progress';
 import Footer from '../Common/Footer';
 import * as Notifications from 'expo-notifications';
+import { collection, doc, setDoc } from 'firebase/firestore';
 
 export default function Home({ navigation }) {
 

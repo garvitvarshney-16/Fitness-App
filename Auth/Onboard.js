@@ -7,6 +7,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import * as Google from 'expo-auth-session/providers/google';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as AuthSession from 'expo-auth-session';
+import { Svg, Path } from 'react-native-svg';
 
 const banner = require('../assets/images/banner.jpg')
 const logo = require('../assets/images/fitPhy-name.png')
@@ -48,7 +49,6 @@ export default function Onboard({ navigation }) {
     useEffect(() => {
         if (response?.type === "success") {
             setAuth(response.authentication);
-
             const persistAuth = async () => {
                 await AsyncStorage.setItem("auth", JSON.stringify(response.authentication));
             };
@@ -118,6 +118,9 @@ export default function Onboard({ navigation }) {
         'OpenSans-Regular': require('../assets/fonts/OpenSans-Regular.ttf'),
         'OpenSans-Medium': require('../assets/fonts/OpenSans-Medium.ttf'),
         'OpenSans-Bold': require('../assets/fonts/OpenSans-Bold.ttf'),
+        'OpenSans-Italic': require('../assets/fonts/OpenSans-Italic.ttf'),
+        'OpenSans-BoldItalic': require('../assets/fonts/OpenSans-BoldItalic.ttf'),
+
     });
 
     const onLayoutRootView = useCallback(async () => {
@@ -139,15 +142,18 @@ export default function Onboard({ navigation }) {
                 </View>
                 <View style={styles.subMain}>
                     <View style={styles.line}></View>
-                    <View style={styles.brandContainer}>
-                        <Image source={logo} style={styles.brand} />
-                    </View>
-                    <Text style={styles.subHead}>Maximize Your Athletic Potential</Text>
+                    <Text style={styles.subHead}>Maximize Your Athletic Potential with <Text style={styles.brand}>FitPhy</Text></Text>
                     <Text style={styles.subHead2}>Onboard to unlock AI-powered coaching, real-time feedback, and a community of athletes. Get started!</Text>
                     <TouchableOpacity activeOpacity={0.9} style={styles.base}
                         onPress={() => promptAsync({ useProxy: true, showInRecents: true })}
                     >
-                        <Text style={styles.buttonText}>Continue</Text>
+                        <Svg width="30" height="32" viewBox="0 0 55 57" fill="none">
+                            <Path d="M54.9993 28.732C54.9993 26.8369 54.8159 24.8808 54.5103 23.0469H28.041V33.8669H43.2012C42.5899 37.3513 40.5726 40.4078 37.5773 42.3639L46.6245 49.3939C51.9428 44.4423 54.9993 37.229 54.9993 28.732Z" fill="#4280EF" />
+                            <Path d="M28.0457 56.1181C35.6258 56.1181 41.9833 53.6117 46.6292 49.3326L37.5819 42.3638C35.0756 44.0755 31.8357 45.0535 28.0457 45.0535C20.7101 45.0535 14.536 40.102 12.2742 33.5L2.98242 40.6522C7.75055 50.1273 17.4091 56.1181 28.0457 56.1181Z" fill="#34A353" />
+                            <Path d="M12.2718 33.439C11.1104 29.9546 11.1104 26.1645 12.2718 22.6801L2.98008 15.4668C-0.993361 23.4137 -0.993361 32.7666 2.98008 40.6523L12.2718 33.439Z" fill="#F6B704" />
+                            <Path d="M28.0457 11.1267C32.0191 11.0656 35.9314 12.5938 38.8045 15.3447L46.8126 7.27552C41.7388 2.50739 35.0145 -0.060063 28.0457 0.00106689C17.4091 0.00106689 7.75055 5.9918 2.98242 15.4669L12.2742 22.6803C14.536 16.0171 20.7101 11.1267 28.0457 11.1267Z" fill="#E54335" />
+                        </Svg>
+                        <Text style={styles.buttonText}>Continue with Google</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -177,29 +183,14 @@ const styles = StyleSheet.create({
         height: '100%',
     },
     subMain: {
-        elevation: 5,
-        height: '100%',
-        marginHorizontal: -10,
-        borderTopRightRadius: 40,
-        borderTopLeftRadius: 40,
         padding: 10,
-        paddingHorizontal: 20,
-    },
-    brandContainer: {
-        marginTop: 10,
-        height: 70,
-        width: 200,
-        alignItems: 'flex-start',
-        alignContent: 'flex-start',
-        justifyContent: 'flex-start',
     },
     brand: {
-        height: '100%',
-        width: '100%',
-        alignSelf: 'flex-start',
-        resizeMode: 'cover',
+        fontFamily: 'OpenSans-BoldItalic',
+        color: '#901391',
     },
     subHead: {
+        marginTop: 10,
         fontSize: 28,
         marginLeft: 10,
         fontWeight: "700",
@@ -211,17 +202,22 @@ const styles = StyleSheet.create({
         fontSize: 15,
         marginTop: 10,
         marginLeft: 10,
-        fontFamily: 'OpenSans-Bold',
+        fontFamily: 'OpenSans-Medium',
         color: "#8d8d8d",
         textAlign: 'left',
     },
     base: {
-        marginTop: 42,
+        alignSelf: 'center',
+        flexDirection: 'row',
+        gap: 10,
+        marginTop: 30,
         borderRadius: 15,
-        width: "100%",
+        width: "90%",
         height: 60,
-        backgroundColor: "#3979cb",
+        backgroundColor: "#901391",
         justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
     },
     line: {
         marginTop: 15,
