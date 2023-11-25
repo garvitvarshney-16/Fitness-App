@@ -59,7 +59,7 @@ const ChatBot = () => {
                     value={inputMessage}
                     onChangeText={(text) => setInputMessage(text)}
                 />
-                <Button title="Send" onPress={handleSendMessage} />
+                <Button title="Send" onPress={() => handleSendMessage()} />
             </View>
         </View>
     );
