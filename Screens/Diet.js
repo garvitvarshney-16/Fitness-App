@@ -47,6 +47,7 @@ export default function Diet({ navigation }) {
 
     return (
         <View style={styles.container}>
+
             <View style={styles.main}>
                 {/* Header */}
                 <View style={styles.rectangleLineargradient}>
