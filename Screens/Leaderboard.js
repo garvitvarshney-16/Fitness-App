@@ -19,7 +19,7 @@ const Leaderboard = () => {
     const renderItem = ({ item }) => (
         <View style={styles.itemContainer}>
             <Image
-                source={require('../assets/profile.png')} // Replace with the actual path to your image
+                source={require('../assets/profile.png')}
                 style={styles.avatar}
             />
             <View style={styles.textContainer}>
@@ -49,20 +49,22 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 16,
         marginTop: 50,
+        backgroundColor: '#f5f5f5',
     },
     text: {
         fontSize: 25,
         fontWeight: 'bold',
-        color: 'black',
-        marginBottom: 20, // Add marginBottom for spacing
+        color: '#333',
+        marginBottom: 20,
     },
     itemContainer: {
         flexDirection: 'row',
-        backgroundColor: 'lightblue',
-        padding: 10,
+        backgroundColor: 'white',
+        padding: 15,
         marginVertical: 8,
         borderRadius: 15,
         alignItems: 'center',
+        elevation: 3,
     },
     avatar: {
         width: 50,
@@ -76,14 +78,14 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: 'black',
+        color: '#333',
     },
     detailsContainer: {
         marginTop: 10,
     },
     detailText: {
         fontSize: 14,
-        color: 'black',
+        color: '#555',
     },
 });
 
