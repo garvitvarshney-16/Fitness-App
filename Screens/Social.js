@@ -45,6 +45,12 @@ export default function Social({ navigation }) {
                 keyExtractor={(item, index) => index.toString()}
                 style={{ marginBottom: 60 }}
             />
+            <TouchableOpacity style={styles.postButtonContainer}>  
+                <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <Path d="M12 5V19" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                    <Path d="M5 12H19" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                </Svg>
+            </TouchableOpacity>
             <View style={styles.footer}>
                 <Footer navigation={navigation} screen={screen} />
             </View>
@@ -76,12 +82,6 @@ const Post = ({ item }) => {
                     <Svg width="28" height="28" viewBox="0 0 24 24" fill="none">
                         <Path d="M19.0711 13.1421L13.4142 18.799C12.6332 19.58 11.3668 19.58 10.5858 18.799L4.92893 13.1421C2.97631 11.1895 2.97631 8.02369 4.92893 6.07107C6.88155 4.11845 10.0474 4.11845 12 6.07107C13.9526 4.11845 17.1184 4.11845 19.0711 6.07107C21.0237 8.02369 21.0237 11.1895 19.0711 13.1421Z"
                             stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </Svg>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <Path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 13.4876 3.36093 14.891 4 16.1272L3 21L7.8728 20C9.10904 20.6391 10.5124 21 12 21Z"
-                            stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </Svg>
                 </TouchableOpacity>
             </View>
@@ -180,5 +180,16 @@ const styles = StyleSheet.create({
         gap: 10,
         alignItems: 'center',
         justifyContent: 'space-between',
-    }
+    },
+    postButtonContainer: {
+        position: 'absolute',
+        height: 60,
+        width: 60,
+        borderRadius: 30,
+        bottom: 80,
+        backgroundColor: 'white',
+        right: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 })
