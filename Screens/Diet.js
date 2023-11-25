@@ -9,6 +9,7 @@ export default function Diet({ navigation }) {
 
     return (
         <View style={styles.container}>
+            
             <View style={styles.footer}>
                 <Footer navigation={navigation} screen={screen} />
             </View>
