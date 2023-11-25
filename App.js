@@ -10,6 +10,7 @@ import Profile from './Screens/Profile';
 import Notification from './Screens/Notification';
 import ChatBot from './Screens/ChatBot';
 import Leaderboard from './Screens/Leaderboard';
+import Training from './Screens/Training';
 
 
 const Stack = createNativeStackNavigator();
@@ -28,6 +29,7 @@ export default function App() {
         <Stack.Screen options={{ headerShown: false }} name='Notification' component={Notification} />
         <Stack.Screen options={{ headerShown: false }} name='ChatBot' component={ChatBot} />
         <Stack.Screen options={{ headerShown: false }} name='Leaderboard' component={Leaderboard} />
+        <Stack.Screen options={{ headerShown: false }} name='Training' component={Training} />
       </Stack.Navigator>
     </NavigationContainer>
   );

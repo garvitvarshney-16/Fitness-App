@@ -251,28 +251,29 @@ export default function Home({ navigation }) {
                             <Text style={styles.span1}>Heart Pt.</Text>
                         </View>
                     </View>
-                    <View style={styles.navBox}>
+                    <TouchableOpacity style={styles.navBox}
+                        onPress={() => navigation.navigate('Training')}>
                         <Text>Daily Training Schedule</Text>
                         <View style={styles.button}>
                             <Text style={styles.btnText}>Check</Text>
                         </View>
-                    </View>
+                    </TouchableOpacity>
                     <View style={styles.cardCont}>
                         <View style={styles.card}>
                             <Text style={styles.cardTitle}>Sleep</Text>
-                            <Text style={styles.subTitle}>2h 40min</Text>
+                            <Text style={styles.subTitle}>3h 5min</Text>
                             <Image source={graph} style={styles.graphImage} />
                         </View>
                         <View style={styles.card}>
                             <Text style={styles.cardTitle}>Calories</Text>
-                            <Text style={styles.subTitle}>760 kCal</Text>
-                            <Text style={styles.newText}>230 Left</Text>
+                            <Text style={styles.subTitle}>60 kCal</Text>
+                            <Text style={styles.newText}>600 Left</Text>
                         </View>
                     </View>
                     <TouchableOpacity style={styles.navBox}>
                         <View>
                             <Text style={styles.navTitle}>Heart rate</Text>
-                            <Text style={styles.navTitle2}>180</Text>
+                            <Text style={styles.navTitle2}>89</Text>
                         </View>
                         <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <Path d="M16 16L19.2929 12.7071C19.6834 12.3166 19.6834 11.6834 19.2929 11.2929L16 8M19 12L5 12" stroke="#2B3F6C" stroke-width="1.5" stroke-linecap="round" />
@@ -298,7 +299,7 @@ export default function Home({ navigation }) {
                     <TouchableOpacity style={styles.navBox}>
                         <View>
                             <Text style={styles.navTitle}>Distance</Text>
-                            <Text style={styles.navTitle2}>1.0km</Text>
+                            <Text style={styles.navTitle2}>1.91km</Text>
                         </View>
                         <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <Path d="M16 16L19.2929 12.7071C19.6834 12.3166 19.6834 11.6834 19.2929 11.2929L16 8M19 12L5 12" stroke="#2B3F6C" stroke-width="1.5" stroke-linecap="round" />
