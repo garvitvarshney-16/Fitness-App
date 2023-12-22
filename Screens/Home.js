@@ -427,7 +427,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
     },
     btnText: {
-        fontSize: 14,
+        fontSize: 10,
         fontFamily: 'OpenSans-Bold',
     },
     cardCont: {
